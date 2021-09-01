@@ -9,6 +9,10 @@ Tested on
 Code compiled using pasmo assembler.
 (fidedpt.asm, mandelbrot.asm required patching)
 
+HOWTO use CP/M binaries under Linux
+...
+
+
 TODO
 * Adopt code to native compilers of the era
 * TMS9918A video adapter support

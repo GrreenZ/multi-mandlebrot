@@ -1,15 +1,54 @@
+############################################################################
 #
-# Semi universal Makefile for ZX Spectrum projects
+# Semi universal Makefile for ZX Spectrum / CPM
 # by Andrzej Borsuk
 #
+# See README to find information about tools used here
+#
+############################################################################
 
 # Primary binaries
+all:	mandc mandc.com mandz.com
+all:	mandc1 mandc1.com
+all:	mandb.com
 all:	mand.com mand.hex
 clean:
 	rm -f *.tap *.hex *.com
+	rm -f mandc *.prn *.rel
+
+# Native clang
+mandc:	mandc.c
+
+# Hisoft-C clang 
+mandc.com: mandc.c
+	c.com -lf -o $< 
+	chmod a+x $@
+
+# Z88DK clang
+mandz.com: mandc.c
+	zcc +cpm -lm -o $@ $<
+	rm -f zcc_opt.def
+	chmod a+x $@
+
+############################################################################
 
 # HOWTO compile this stuff:
-.SUFFIXES: .asm .bas .as .tap .hex .com
+.SUFFIXES: .bas .asm .as
+.SUFFIXES: .hex .com .rel
+.SUFFIXES: .tap
+
+
+# CP/M clang (Hisoft-C)
+.c.com:
+	c.com -lf $*.c
+	chmod a+x $*.com
+
+# CP/M bascom
+.bas.rel:
+	bascom.com $*,$*=$*/o/z
+.rel.com:
+	l80.com $*,$*/n/e
+	chmod a+x $*.com
 
 # CP/M executable
 .asm.com:
